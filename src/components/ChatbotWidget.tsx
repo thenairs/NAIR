@@ -16,6 +16,7 @@ import {
   FileText
 } from 'lucide-react';
 import { marked } from 'marked';
+import AIRobotAvatar from './AIRobotAvatar';
 import SiriOrb from './smoothui/siri-orb';
 import AILoader from './smoothui/ai-loader';
 
@@ -395,18 +396,18 @@ export function ChatbotWidget() {
           )}
         </AnimatePresence>
 
-        {/* The Standalone Orb Face (NO background box or container) */}
+        {/* The Standalone Friendly Robot Avatar (NO background box or container) */}
         <motion.button
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.94 }}
           onClick={() => setIsOpen((prev) => !prev)}
-          className="relative cursor-pointer select-none outline-none filter drop-shadow-[0_12px_36px_rgba(37,99,235,0.42)] transition-transform flex items-center justify-center p-0 bg-transparent border-0"
+          className="relative cursor-pointer select-none outline-none filter drop-shadow-[0_12px_32px_rgba(37,99,235,0.35)] transition-transform flex items-center justify-center p-0 bg-transparent border-0"
           aria-label={isOpen ? 'Close chat' : 'Open chat'}
         >
-          <SiriOrb
-            size="84px"
-            state={isOpen ? 'thinking' : 'idle'}
-            colors={BRAND_ORB_COLORS}
+          <AIRobotAvatar
+            size={76}
+            state={isOpen ? 'thinking' : aiState}
+            showStatusLight={true}
           />
         </motion.button>
       </div>
@@ -478,8 +479,8 @@ export function ChatbotWidget() {
                   {msg.role === 'assistant' ? (
                     <div className="flex items-start gap-2.5 max-w-[88%]">
                       {/* Avatar from reference */}
-                      <div className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-full bg-slate-900 border border-slate-200 shadow-xs overflow-hidden">
-                        <SiriOrb size="28px" state="idle" colors={BRAND_ORB_COLORS} />
+                      <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center">
+                        <AIRobotAvatar size={32} state="idle" showStatusLight={false} />
                       </div>
 
                       <div className="flex flex-col">
@@ -582,8 +583,8 @@ export function ChatbotWidget() {
               {/* Streaming In-Progress Assistant Bubble */}
               {isStreaming && (
                 <div className="flex items-start gap-2.5 max-w-[88%]">
-                  <div className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-full bg-slate-900 border border-slate-200 shadow-xs overflow-hidden">
-                    <SiriOrb size="28px" state={aiState} colors={BRAND_ORB_COLORS} />
+                  <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center">
+                    <AIRobotAvatar size={32} state={aiState === 'streaming' ? 'streaming' : 'thinking'} showStatusLight={false} />
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[10px] font-medium text-slate-400 mb-1 pl-1">

@@ -174,9 +174,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   const getNavLinkClasses = (isActive: boolean, isOpen = false) => {
     if (isDarkHeroTop) {
       if (isActive || isOpen) {
-        return 'text-[#38BDF8] font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]';
+        return 'text-[#1D4ED8] font-bold';
       }
-      return 'text-white/90 hover:text-white font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]';
+      return 'text-slate-800 hover:text-[#1D4ED8] font-semibold transition-colors';
     }
     if (isActive || isOpen) {
       return 'text-[#1D4ED8] font-bold';
@@ -206,7 +206,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div
           className={`flex items-center transition-all duration-300 ${
             isDarkHeroTop
-              ? 'p-1.5 pr-4 sm:pr-5 rounded-full bg-slate-950/50 backdrop-blur-xl border border-white/20 shadow-[0_4px_24px_-2px_rgba(0,0,0,0.45)] gap-2.5 sm:gap-3.5 md:gap-4 lg:gap-5'
+              ? 'p-1.5 pr-4 sm:pr-5 rounded-full bg-white/80 backdrop-blur-xl border border-slate-200/90 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.08)] gap-2.5 sm:gap-3.5 md:gap-4 lg:gap-5'
               : 'gap-5 lg:gap-8'
           }`}
         >
@@ -232,7 +232,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Vertical Divider inside glass capsule at Hero Top */}
           {isDarkHeroTop && (
-            <div className="hidden md:block h-4 w-px bg-white/25 shrink-0" aria-hidden="true" />
+            <div className="hidden md:block h-4 w-px bg-slate-300/80 shrink-0" aria-hidden="true" />
           )}
 
           {/* Desktop Navigation Links */}
@@ -268,22 +268,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <ChevronDown
                       className={`w-3.5 h-3.5 transition-transform duration-250 ease-out ${
                         servicesOpen
-                          ? isDarkHeroTop
-                            ? 'rotate-180 text-[#38BDF8]'
-                            : 'rotate-180 text-[#1D4ED8]'
-                          : isDarkHeroTop
-                            ? 'text-slate-300 group-hover:text-white'
-                            : 'text-slate-400 group-hover:text-[#1D4ED8]'
+                          ? 'rotate-180 text-[#1D4ED8]'
+                          : 'text-slate-500 group-hover:text-[#1D4ED8]'
                       }`}
                     />
                     {isActive && (
-                      <span
-                        className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-full ${
-                          isDarkHeroTop
-                            ? 'bg-[#38BDF8] shadow-[0_0_8px_#38BDF8]'
-                            : 'bg-[#1D4ED8]'
-                        }`}
-                      />
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-[#1D4ED8]" />
                     )}
                   </button>
 
@@ -435,22 +425,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <ChevronDown
                       className={`w-3.5 h-3.5 transition-transform duration-250 ease-out ${
                         resourcesOpen
-                          ? isDarkHeroTop
-                            ? 'rotate-180 text-[#38BDF8]'
-                            : 'rotate-180 text-[#1D4ED8]'
-                          : isDarkHeroTop
-                            ? 'text-slate-300 group-hover:text-white'
-                            : 'text-slate-400 group-hover:text-[#1D4ED8]'
+                          ? 'rotate-180 text-[#1D4ED8]'
+                          : 'text-slate-500 group-hover:text-[#1D4ED8]'
                       }`}
                     />
                     {isActive && (
-                      <span
-                        className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-full ${
-                          isDarkHeroTop
-                            ? 'bg-[#38BDF8] shadow-[0_0_8px_#38BDF8]'
-                            : 'bg-[#1D4ED8]'
-                        }`}
-                      />
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-[#1D4ED8]" />
                     )}
                   </button>
 
@@ -526,13 +506,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <span>{link.name}</span>
                 {isActive && (
-                  <span
-                    className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-full ${
-                      isDarkHeroTop
-                        ? 'bg-[#38BDF8] shadow-[0_0_8px_#38BDF8]'
-                        : 'bg-[#1D4ED8]'
-                    }`}
-                  />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-[#1D4ED8]" />
                 )}
               </button>
             );
@@ -565,7 +539,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className={`md:hidden p-2 rounded-xl focus:outline-hidden cursor-pointer transition-colors ${
             isDarkHeroTop && !mobileMenuOpen
-              ? 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:text-[#38BDF8] shadow-sm'
+              ? 'bg-white/80 backdrop-blur-md border border-slate-200/80 text-slate-800 hover:text-[#1D4ED8] shadow-sm'
               : 'text-slate-700 hover:text-black'
           }`}
           aria-label="Toggle navigation menu"

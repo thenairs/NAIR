@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Zap, ShieldCheck, Cpu } from 'lucide-react';
-import heroBgImage from '../assets/n_hs.png';
+import heroBgImage from '../assets/hero_bright_daylight.jpg';
 
 interface HeroProps {
   onBookCall: () => void;
@@ -33,9 +33,9 @@ export const Hero: React.FC<HeroProps> = ({ onBookCall, onOpenAssessment }) => {
   };
 
   return (
-    <section className="relative w-full min-h-[90vh] sm:min-h-screen flex flex-col justify-center overflow-hidden bg-[#030712] text-white">
+    <section className="relative w-full min-h-[90vh] sm:min-h-screen flex flex-col justify-center overflow-hidden bg-slate-50 text-slate-900">
       
-      {/* 1. HERO BACKGROUND IMAGE (RAW, UNTINTED) */}
+      {/* 1. HERO BACKGROUND IMAGE (BRIGHT DAYLIGHT ARCHITECTURAL SUITE) */}
       <div className="absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden z-0">
         <img
           src={heroBgImage}
@@ -43,9 +43,11 @@ export const Hero: React.FC<HeroProps> = ({ onBookCall, onOpenAssessment }) => {
           className="w-full h-full object-cover object-center"
           loading="eager"
         />
+        {/* Subtle, soft natural daylight diffusion on the left to ensure effortless text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/70 via-white/30 to-transparent pointer-events-none" />
       </div>
 
-      {/* 2. MAIN FOREGROUND CONTENT (MATCHING REFERENCE WORDING DESIGN) */}
+      {/* 2. MAIN FOREGROUND CONTENT (BLENDED WITH BRIGHT THEME & SIGNATURE BLUE ACCENTS) */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -54,39 +56,40 @@ export const Hero: React.FC<HeroProps> = ({ onBookCall, onOpenAssessment }) => {
       >
         <div className="max-w-4xl flex flex-col justify-center text-left items-start">
           
-          {/* Eyebrow / Kicker: Sentence 1 with Crimson Accent Pill */}
+          {/* Eyebrow / Kicker: Frosted Glass Capsule with Electric Blue Accent */}
           <motion.div
             variants={itemVariants}
-            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-red-950/40 border border-red-500/30 backdrop-blur-md mb-6 shadow-sm"
+            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/85 border border-sky-200/90 backdrop-blur-md mb-6 shadow-[0_2px_12px_rgba(14,165,233,0.12)]"
           >
-            <span className="w-2 h-2 rounded-full bg-[#EF4444] animate-pulse shrink-0" />
-            <span className="text-xs sm:text-sm font-semibold tracking-wide text-red-300">
-              Want to implement AI, but not sure where to start? Work smarter not harder with these proven strategies.
+            <span className="w-2 h-2 rounded-full bg-[#0284C7] animate-pulse shrink-0 shadow-[0_0_8px_rgba(2,132,199,0.5)]" />
+            <span className="text-xs sm:text-sm font-semibold tracking-wide text-slate-800">
+              Want to implement AI, but not sure where to start?{' '}
+              <span className="text-[#0369A1] font-bold">Work smarter not harder with these proven strategies.</span>
             </span>
           </motion.div>
 
-          {/* Main Headline (Sentence 2): Solid Crisp White + Electric Blue/Cyan Punchline */}
+          {/* Main Headline: Deep Executive Navy/Slate + Electric Royal Blue to Cyan Gradient */}
           <motion.h1
             variants={itemVariants}
-            className="font-display text-4xl sm:text-6xl lg:text-[4.75rem] xl:text-[5.25rem] font-extrabold tracking-tight leading-[1.08] sm:leading-[1.05] mb-6 drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]"
+            className="font-display text-4xl sm:text-6xl lg:text-[4.75rem] xl:text-[5.25rem] font-extrabold tracking-tight leading-[1.08] sm:leading-[1.05] mb-6"
           >
-            <span className="text-white block">
+            <span className="text-[#0A192F] block">
               Harness the Power of
             </span>
-            <span className="text-transparent bg-gradient-to-r from-[#2563EB] via-[#38BDF8] to-[#00D2FF] bg-clip-text block mt-1">
+            <span className="text-transparent bg-gradient-to-r from-[#1D4ED8] via-[#0284C7] to-[#00D2FF] bg-clip-text block mt-1 drop-shadow-[0_2px_16px_rgba(2,132,199,0.22)]">
               Autonomous AI.
             </span>
           </motion.h1>
 
-          {/* Sub-description (Sentence 3): Crisp, Highly Legible Slate-200 */}
+          {/* Sub-description: Crisp Executive Slate-700 */}
           <motion.p
             variants={itemVariants}
-            className="text-base sm:text-lg lg:text-xl text-slate-200 leading-relaxed mb-8 sm:mb-9 max-w-2xl font-normal drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]"
+            className="text-base sm:text-lg lg:text-xl text-slate-700 leading-relaxed mb-8 sm:mb-9 max-w-2xl font-normal"
           >
             Production-grade multi-agent swarms, zero-retention governance, and private inference engines engineered directly into your enterprise infrastructure.
           </motion.p>
 
-          {/* Action Buttons: Vibrant Red Pill CTA with Arrow + Frosted Glass Audit Button */}
+          {/* Action Buttons: Electric Blue Signature CTA + Clean Frosted Glass Audit Button */}
           <motion.div
             variants={itemVariants}
             className="flex flex-wrap items-center gap-4 mb-10 sm:mb-12 w-full sm:w-auto"
@@ -94,7 +97,7 @@ export const Hero: React.FC<HeroProps> = ({ onBookCall, onOpenAssessment }) => {
             <button
               type="button"
               onClick={onBookCall}
-              className="px-8 sm:px-9 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-[#EF4444] via-[#DC2626] to-[#B91C1C] hover:from-[#DC2626] hover:to-[#B91C1C] text-white font-mono text-xs sm:text-sm font-extrabold tracking-wider uppercase transition-all duration-200 shadow-[0_10px_35px_rgba(239,68,68,0.45)] hover:scale-103 active:scale-97 cursor-pointer flex items-center gap-2.5 group border border-red-400/30"
+              className="px-8 sm:px-9 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-[#1D4ED8] via-[#2563EB] to-[#0284C7] hover:from-[#1E40AF] hover:to-[#1D4ED8] text-white font-mono text-xs sm:text-sm font-extrabold tracking-wider uppercase transition-all duration-200 shadow-[0_10px_30px_rgba(29,78,216,0.35)] hover:scale-103 active:scale-97 cursor-pointer flex items-center gap-2.5 group border border-blue-400/30"
             >
               <span>Explore Solutions</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-1 transition-transform" />
@@ -103,27 +106,27 @@ export const Hero: React.FC<HeroProps> = ({ onBookCall, onOpenAssessment }) => {
             <button
               type="button"
               onClick={onOpenAssessment}
-              className="px-7 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white/10 hover:bg-white/15 text-white hover:text-[#38BDF8] border border-white/25 hover:border-[#38BDF8]/50 font-mono text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-200 backdrop-blur-md cursor-pointer hover:scale-102 active:scale-98 shadow-md"
+              className="px-7 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white/80 hover:bg-white text-slate-800 hover:text-[#1D4ED8] border border-slate-300/80 hover:border-[#1D4ED8]/50 font-mono text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-200 backdrop-blur-md cursor-pointer hover:scale-102 active:scale-98 shadow-sm"
             >
               <span>Take Readiness Audit</span>
             </button>
           </motion.div>
 
-          {/* 3 Horizontal Micro-Feature Badges: Matching Reference Image Bottom Layout */}
+          {/* 3 Horizontal Micro-Feature Badges: Blended with Bright Theme & Blue Accents */}
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-6 border-t border-white/10 max-w-3xl w-full"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-6 border-t border-slate-300/70 max-w-3xl w-full"
           >
             {/* Feature 1: Multi-Agent Swarms */}
             <div className="flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-full bg-[#0A192F]/80 border border-blue-500/40 flex items-center justify-center text-[#38BDF8] shadow-[0_0_20px_rgba(56,189,248,0.25)] shrink-0">
-                <Zap className="w-5 h-5 text-[#38BDF8] fill-[#38BDF8]/20" />
+              <div className="w-11 h-11 rounded-full bg-white/90 border border-sky-200 flex items-center justify-center text-[#1D4ED8] shadow-[0_2px_10px_rgba(2,132,199,0.12)] shrink-0 backdrop-blur-sm">
+                <Zap className="w-5 h-5 text-[#0284C7] fill-[#0284C7]/20" />
               </div>
               <div className="text-left">
-                <div className="font-display font-bold text-sm text-white leading-tight">
+                <div className="font-display font-bold text-sm text-[#0A192F] leading-tight">
                   Multi-Agent Swarms
                 </div>
-                <div className="text-xs text-slate-400 font-normal leading-tight mt-0.5">
+                <div className="text-xs text-slate-600 font-medium leading-tight mt-0.5">
                   Production-Grade
                 </div>
               </div>
@@ -131,14 +134,14 @@ export const Hero: React.FC<HeroProps> = ({ onBookCall, onOpenAssessment }) => {
 
             {/* Feature 2: Zero-Retention */}
             <div className="flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-full bg-[#0A192F]/80 border border-blue-500/40 flex items-center justify-center text-[#38BDF8] shadow-[0_0_20px_rgba(56,189,248,0.25)] shrink-0">
-                <ShieldCheck className="w-5 h-5 text-[#38BDF8]" />
+              <div className="w-11 h-11 rounded-full bg-white/90 border border-sky-200 flex items-center justify-center text-[#1D4ED8] shadow-[0_2px_10px_rgba(2,132,199,0.12)] shrink-0 backdrop-blur-sm">
+                <ShieldCheck className="w-5 h-5 text-[#0284C7]" />
               </div>
               <div className="text-left">
-                <div className="font-display font-bold text-sm text-white leading-tight">
+                <div className="font-display font-bold text-sm text-[#0A192F] leading-tight">
                   Zero-Retention
                 </div>
-                <div className="text-xs text-slate-400 font-normal leading-tight mt-0.5">
+                <div className="text-xs text-slate-600 font-medium leading-tight mt-0.5">
                   Enterprise Governance
                 </div>
               </div>
@@ -146,14 +149,14 @@ export const Hero: React.FC<HeroProps> = ({ onBookCall, onOpenAssessment }) => {
 
             {/* Feature 3: Private Inference */}
             <div className="flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-full bg-[#0A192F]/80 border border-blue-500/40 flex items-center justify-center text-[#38BDF8] shadow-[0_0_20px_rgba(56,189,248,0.25)] shrink-0">
-                <Cpu className="w-5 h-5 text-[#38BDF8]" />
+              <div className="w-11 h-11 rounded-full bg-white/90 border border-sky-200 flex items-center justify-center text-[#1D4ED8] shadow-[0_2px_10px_rgba(2,132,199,0.12)] shrink-0 backdrop-blur-sm">
+                <Cpu className="w-5 h-5 text-[#0284C7]" />
               </div>
               <div className="text-left">
-                <div className="font-display font-bold text-sm text-white leading-tight">
+                <div className="font-display font-bold text-sm text-[#0A192F] leading-tight">
                   Private Inference
                 </div>
-                <div className="text-xs text-slate-400 font-normal leading-tight mt-0.5">
+                <div className="text-xs text-slate-600 font-medium leading-tight mt-0.5">
                   Direct Infrastructure
                 </div>
               </div>
