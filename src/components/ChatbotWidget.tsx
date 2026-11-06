@@ -6,18 +6,12 @@ import {
   X, 
   ArrowUp, 
   ChevronRight, 
-  Sparkles, 
   RotateCcw,
-  Check, 
-  Bot,
-  Search,
   ChevronLeft,
   Paperclip,
   FileText
 } from 'lucide-react';
 import { marked } from 'marked';
-import AIRobotAvatar from './AIRobotAvatar';
-import SiriOrb from './smoothui/siri-orb';
 import AILoader from './smoothui/ai-loader';
 
 // Configure marked with GitHub Flavored Markdown and line breaks
@@ -33,6 +27,20 @@ function renderMarkdown(content: string): string {
   } catch {
     return content;
   }
+}
+
+function getUserCoordinates(): Promise<{ latitude: number | null; longitude: number | null }> {
+  if (typeof navigator === 'undefined' || !navigator.geolocation) {
+    return Promise.resolve({ latitude: null, longitude: null });
+  }
+
+  return new Promise((resolve) => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => resolve({ latitude: coords.latitude, longitude: coords.longitude }),
+      () => resolve({ latitude: null, longitude: null }),
+      { enableHighAccuracy: false, maximumAge: 60_000, timeout: 5_000 },
+    );
+  });
 }
 
 const BRAND_ORB_COLORS = {
@@ -311,7 +319,7 @@ export function ChatbotWidget() {
     setAttachedFile(null);
   };
 
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const rawText = (textToSend || inputValue).trim();
     if ((!rawText && !attachedFile) || isStreaming) return;
 
@@ -320,6 +328,23 @@ export function ChatbotWidget() {
 
     lastUserPromptRef.current = text;
 
+    setInputValue('');
+    setAttachedFile(null);
+    setAiState('thinking');
+    setIsStreaming(true);
+    setStreamingContent('');
+
+    const coordinates = await getUserCoordinates();
+    const promptPayload = currentAttachment
+      ? `${text}\n\n[Uploaded File Attachment: ${currentAttachment.name} (${currentAttachment.size})]`
+      : text;
+    const requestPayload = {
+      message: promptPayload,
+      latitude: coordinates.latitude,
+      longitude: coordinates.longitude,
+      history: [...messages, { role: 'user' as const, content: text }]
+        .map(({ role, content }) => ({ role, content })),
+    };
     const userMsg: Message = {
       id: 'user-' + Date.now(),
       role: 'user',
@@ -328,25 +353,10 @@ export function ChatbotWidget() {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
-    const newHistory = [...messages, userMsg];
-    setMessages(newHistory);
-    setInputValue('');
-    setAttachedFile(null);
-    setAiState('thinking');
-    setIsStreaming(true);
-    setStreamingContent('');
-
-    const promptPayload = currentAttachment 
-      ? `${text}\n\n[Uploaded File Attachment: ${currentAttachment.name} (${currentAttachment.size})]`
-      : text;
+    setMessages([...messages, userMsg]);
 
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(
-        JSON.stringify({
-          message: promptPayload,
-          history: newHistory.map((m) => ({ role: m.role, content: m.content })),
-        })
-      );
+      wsRef.current.send(JSON.stringify(requestPayload));
     } else {
       setTimeout(() => {
         runSimulationResponse(text);
@@ -370,46 +380,44 @@ export function ChatbotWidget() {
 
   return (
     <>
-      {/* Floating Corner: Standalone Orb Face + Left Hovering Pill (NO box around Orb) */}
-      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
-        {/* Message hovering to the LEFT side of the Orb */}
+      {/* Floating support launcher follows the supplied portrait and CTA composition */}
+      <div className="fixed bottom-5 right-4 z-50 sm:bottom-7 sm:right-7">
         <AnimatePresence>
           {!isOpen && (
             <motion.button
-              initial={{ opacity: 0, x: 14, scale: 0.95 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 14, scale: 0.95 }}
+              initial={{ opacity: 0, y: 14, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 14, scale: 0.96 }}
               transition={{ duration: 0.2 }}
               onClick={() => setIsOpen(true)}
-              className="cursor-pointer group flex items-center gap-2.5 rounded-full bg-white px-4.5 py-2.5 text-slate-800 shadow-[0_4px_22px_rgba(0,0,0,0.1)] border border-slate-200/90 backdrop-blur-md hover:shadow-[0_6px_25px_rgba(29,78,216,0.2)] hover:border-blue-400 transition-all active:scale-98"
-              aria-label="Talk with NAIR.AI"
+              className="group relative block h-[290px] w-[242px] cursor-pointer overflow-visible text-left transition-all hover:-translate-y-1 active:scale-[0.98] sm:h-[330px] sm:w-[276px]"
+              aria-label="Ask me anything"
             >
-              <span className="relative flex size-2">
-                <span className={`absolute inline-flex h-full w-full rounded-full ${wsConnected ? 'animate-ping bg-emerald-400 opacity-75' : 'bg-amber-400/50'}`} />
-                <span className={`relative inline-flex size-2 rounded-full ${wsConnected ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+              <img
+                src="/images/chatbot_image.png"
+                alt="NAIR.AI support assistant"
+                className="absolute bottom-0 left-1/2 h-[75%] w-[75%] -translate-x-1/2 object-contain object-bottom transition-transform duration-300 group-hover:scale-[1.03]"
+              />
+              <span className="absolute right-2 top-[35%] flex items-center gap-1 rounded-full border border-white/80 bg-white/95 px-2 py-1 text-[8px] font-semibold text-slate-700 shadow-sm">
+                <span className={`size-1 rounded-full ${wsConnected ? 'bg-emerald-500' : 'animate-pulse bg-amber-500'}`} />
+                {wsConnected ? 'Online' : 'Here to help'}
               </span>
-              <span className="text-xs font-semibold tracking-tight text-slate-800 group-hover:text-blue-600 transition-colors">
-                Talk with NAIR.AI
+              <span className="absolute inset-x-[8%] bottom-1 flex h-[42px] items-center justify-between rounded-full border border-blue-500/50 bg-white px-2 shadow-[0_5px_20px_rgba(10,25,47,0.2)] sm:bottom-2 sm:px-3">
+                <span className="flex min-w-0 flex-1 items-center gap-2">
+                  <span className="flex size-7 items-center justify-center rounded-full bg-blue-600 text-white shadow-sm">
+                    <span className="text-xs font-bold leading-none">•••</span>
+                  </span>
+                  <span className="flex-1 whitespace-nowrap text-center text-[11px] font-extrabold tracking-tight text-[#0A192F]">
+                    Ask Me <span className="text-red-600">Anything!</span>
+                  </span>
+                </span>
+                <span className="ml-1.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-red-600 text-white shadow-sm transition-transform group-hover:translate-x-0.5">
+                  <ChevronRight className="size-3 stroke-[2.5]" />
+                </span>
               </span>
-              <Sparkles className="size-3 text-blue-500 opacity-80" />
             </motion.button>
           )}
         </AnimatePresence>
-
-        {/* The Standalone Friendly Robot Avatar (NO background box or container) */}
-        <motion.button
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.94 }}
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="relative cursor-pointer select-none outline-none filter drop-shadow-[0_12px_32px_rgba(37,99,235,0.35)] transition-transform flex items-center justify-center p-0 bg-transparent border-0"
-          aria-label={isOpen ? 'Close chat' : 'Open chat'}
-        >
-          <AIRobotAvatar
-            size={76}
-            state={isOpen ? 'thinking' : aiState}
-            showStatusLight={true}
-          />
-        </motion.button>
       </div>
 
       {/* Redesigned Clean White Chatbot Interface (Matching uploaded UI reference) */}
@@ -480,7 +488,7 @@ export function ChatbotWidget() {
                     <div className="flex items-start gap-2.5 max-w-[88%]">
                       {/* Avatar from reference */}
                       <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center">
-                        <AIRobotAvatar size={32} state="idle" showStatusLight={false} />
+                        <img src="/images/chatbot_image.png" alt="" className="size-8 rounded-full object-cover object-top" />
                       </div>
 
                       <div className="flex flex-col">
@@ -565,7 +573,7 @@ export function ChatbotWidget() {
                   ) : (
                     /* User Bubble (Right-aligned clean pill from reference) */
                     <div className="flex justify-end">
-                      <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-white px-4 py-2.5 text-sm font-medium text-slate-800 shadow-[0_2px_6px_rgba(0,0,0,0.03)] border border-slate-200/90 leading-relaxed">
+                      <div className="max-w-[85%] rounded-2xl rounded-tr-sm border border-blue-600 bg-blue-600 px-4 py-2.5 text-sm font-medium leading-relaxed text-white shadow-[0_2px_6px_rgba(29,78,216,0.18)]">
                         {msg.attachment && (
                           <div className="mb-2 flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2 border border-slate-200/80 text-xs font-mono text-slate-700">
                             <FileText className="size-4 text-blue-600 shrink-0" />
@@ -584,7 +592,7 @@ export function ChatbotWidget() {
               {isStreaming && (
                 <div className="flex items-start gap-2.5 max-w-[88%]">
                   <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center">
-                    <AIRobotAvatar size={32} state={aiState === 'streaming' ? 'streaming' : 'thinking'} showStatusLight={false} />
+                    <img src="/images/chatbot_image.png" alt="" className="size-8 rounded-full object-cover object-top" />
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[10px] font-medium text-slate-400 mb-1 pl-1">
