@@ -398,8 +398,8 @@ export function ChatbotWidget() {
                 alt="NAIR.AI support assistant"
                 className="absolute bottom-0 left-1/2 h-[75%] w-[75%] -translate-x-1/2 object-contain object-bottom transition-transform duration-300 group-hover:scale-[1.03]"
               />
-              <span className="absolute right-2 top-[35%] flex items-center gap-1 rounded-full border border-white/80 bg-white/95 px-2 py-1 text-[8px] font-semibold text-slate-700 shadow-sm">
-                <span className={`size-1 rounded-full ${wsConnected ? 'bg-emerald-500' : 'animate-pulse bg-amber-500'}`} />
+              <span className="absolute right-2 top-[35%] flex items-center gap-1.5 rounded-full border border-white/80 bg-white/95 px-2.5 py-1 text-[10px] font-bold text-slate-700 shadow-sm">
+                <span className={`size-1.5 rounded-full ${wsConnected ? 'bg-emerald-500' : 'animate-pulse bg-amber-500'}`} />
                 {wsConnected ? 'Online' : 'Here to help'}
               </span>
               <span className="absolute inset-x-[8%] bottom-1 flex h-[42px] items-center justify-between rounded-full border border-blue-500/50 bg-white px-2 shadow-[0_5px_20px_rgba(10,25,47,0.2)] sm:bottom-2 sm:px-3">
@@ -407,7 +407,7 @@ export function ChatbotWidget() {
                   <span className="flex size-7 items-center justify-center rounded-full bg-blue-600 text-white shadow-sm">
                     <span className="text-xs font-bold leading-none">•••</span>
                   </span>
-                  <span className="flex-1 whitespace-nowrap text-center text-[11px] font-extrabold tracking-tight text-[#0A192F]">
+                  <span className="flex-1 whitespace-nowrap text-center text-[13px] font-extrabold tracking-tight text-[#0A192F]">
                     Ask Me <span className="text-red-600">Anything!</span>
                   </span>
                 </span>
